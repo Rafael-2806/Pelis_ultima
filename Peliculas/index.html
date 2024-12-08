@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Películas</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Exo:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+
+    <!-- Swiper.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+    <!-- Swiper.js JavaScript -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Anime.js -->
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+
+    <!-- Lottie para la animación -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.2/lottie.min.js"></script>
+
+    <script src="./app.js" defer></script>
+</head>
+
+<body>
+
+<!-- Pantalla de carga -->
+<div id="loading-screen">
+    <div id="animation-container"></div>
+    <h2>Bienvenido a tu gestor de películas</h2>
+</div>
+
+<!-- Contenido principal de la aplicación -->
+<div id="app" style="display:none;">
+    <h1 id="header">Mis Películas Favoritas</h1>
+    <div class="area">
+        <ul class="circles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+
+    <!-- Barra de búsqueda -->
+    <div id="main">
+        <div class="search-bar">
+            <input type="text" id="search" placeholder="Buscar película por título o director">
+            <button class="search">Buscar Películas</button>
+        </div>
+
+        <!-- Aquí pueden aparecer las películas encontradas -->
+        <div id="content"></div>
+
+        <!-- Navegación entre vistas -->
+        <div class="navigation">
+            <button class="keywords">Ver Palabras Clave</button>
+            <button class="my-keywords">Mis Palabras Clave</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar la animación de Lottie
+        const animation = lottie.loadAnimation({
+            container: document.getElementById('animation-container'),
+            renderer: 'svg',
+            loop: false,
+            autoplay: true,
+            path: './Waveform copy.json' // Ruta al archivo JSON de la animación
+        });
+
+        // Mostrar la aplicación principal al terminar la animación
+        animation.addEventListener('complete', () => {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+
+            // Animación de texto del encabezado
+            const header = document.getElementById('header');
+            header.innerHTML = header.textContent
+                .split('')
+                .map(letter => `<span>${letter === ' ' ? '&nbsp;' : letter}</span>`)
+                .join('');
+
+            anime({
+                targets: '#header span',
+                translateY: [-50, 0],
+                opacity: [0, 1],
+                easing: 'easeOutElastic(1, .8)',
+                duration: 1500,
+                delay: (el, i) => i * 100,
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
